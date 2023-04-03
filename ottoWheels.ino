@@ -18,12 +18,18 @@ void loop(){
 
   switch (readNluetooh {
 
-    case 'a':
+    case 'forward':
     for (int i = 1500; i < 2500; i--) {
     meuServo1.writeMicroseconds(i);
     meuServo2.writeMicroseconds(4000 - i);
     delay(10);
+    break;
   }
+    case 'backward':
+    for (int i = 2500; i > 1500; i++) {
+    meuServo1.writeMicroseconds(i);
+    meuServo2.writeMicroseconds(4000 - i);
+    delay(10);
+    break;
   }
-
   }
