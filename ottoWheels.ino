@@ -8,7 +8,6 @@ Servo meuServo2;
 
 int state = 0;
 int state2 = 0;
-int state3 = 0;
 
 
 void setup(){
@@ -19,18 +18,21 @@ meuServo2.attach(3);
 }
 
 void loop(){
-  if (HC05.available() > 0) {
+ if (HC05.available() > 0) {
     char data = HC05.read();
     executeAction(data);
   }
+
 }
 
 void executeAction(char action) {
   switch (action) {
     case 'f':
+      state = !state;
       moveForward();
       break;
     case 'b':
+      state2 = !state2;
       moveBackward();
       break;
   }
