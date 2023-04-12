@@ -1,6 +1,7 @@
 #include <Servo.h>
 #include <SoftwareSerial.h>
 
+//teste
 SoftwareSerial HC05(11, 12);
 Servo rodaDir;
 Servo rodaEsq;
