@@ -40,11 +40,12 @@ void executeAction(char action) {
 
 void moveForward() {
   unsigned long startMillis = millis();
+  int increment = 5;
   while (millis() - startMillis < 1000) {
-    for (int i = servoLimiteMin; i < servoLimiteMax; i++) {
+    for (int i = servoLimiteMin; i < servoLimiteMax; i += increment) {
       rodaDir.writeMicroseconds(400 - i);
       rodaEsq.writeMicroseconds(400 + i);
-      delay(10);
+      delay(5);
     }
   }
   stopMotion();
@@ -52,11 +53,12 @@ void moveForward() {
 
 void moveBackward() {
   unsigned long startMillis = millis();
+  int decrement = 5;
   while (millis() - startMillis < 1000) {
-    for (int i = servoLimiteMax; i > servoLimiteMin; i--) {
+    for (int i = servoLimiteMax; i > servoLimiteMin; i -= decrement) {
       rodaEsq.writeMicroseconds(400 - i);
       rodaDir.writeMicroseconds(400 + i);
-      delay(10);
+      delay(5);
     }
   }
   stopMotion();
@@ -66,3 +68,4 @@ void stopMotion() {
   rodaDir.writeMicroseconds(servoLimiteMin);
   rodaEsq.writeMicroseconds(servoLimiteMax);
 }
+
