@@ -40,7 +40,7 @@ void executeAction(char action) {
 
 void moveForward() {
   unsigned long startMillis = millis();
-  while (millis() - startMillis < 1) {
+  while (millis() - startMillis < 1000) {
     for (int i = servoLimiteMin; i < servoLimiteMax; i++) {
       rodaDir.writeMicroseconds(400 - i);
       rodaEsq.writeMicroseconds(400 + i);
@@ -52,7 +52,7 @@ void moveForward() {
 
 void moveBackward() {
   unsigned long startMillis = millis();
-  while (millis() - startMillis < 1) {
+  while (millis() - startMillis < 1000) {
     for (int i = servoLimiteMax; i > servoLimiteMin; i--) {
       rodaEsq.writeMicroseconds(400 - i);
       rodaDir.writeMicroseconds(400 + i);
