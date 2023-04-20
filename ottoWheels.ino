@@ -1,72 +1,55 @@
 #include <Servo.h>
 #include <SoftwareSerial.h>
 
-//teste
+// Define o pino do servo motor
+//int servoPin = 6;
 SoftwareSerial HC05(11, 12);
-Servo rodaDir;
-Servo rodaEsq;
+Servo servo1;
+Servo servo2;
 
-int servoLimiteMin = 1500;
-int servoLimiteMax = 2500;
+// Define os pinos TX e RX do módulo Bluetooth
+//int bluetoothTx = 10;
+//int bluetoothRx = 11;
+//SoftwareSerial bluetooth(bluetoothTx, bluetoothRx);
 
-void setup(){
+void setup() {
   Serial.begin(9600);
   HC05.begin(9600);
-  rodaDir.attach(3);
-  rodaEsq.attach(2);
-  rodaDir.writeMicroseconds(servoLimiteMin);
-  rodaEsq.writeMicroseconds(servoLimiteMax);
+  servo1.attach(6);
+  servo2.attach(2);
 }
 
-void loop(){
+void loop() {
+  // Verifica se há um sinal recebido do aplicativo via Bluetooth
   if (HC05.available() > 0) {
-    char data = HC05.read();
-    executeAction(data);
-  }
-}
+    // Lê o sinal recebido do aplicativo
+    char signal = HC05.read();
+    
+    if (signal == 'f') {
+      
+      servo1.write(0);
+      servo2.write(180);
+    }
+    
+    else if (signal == 'b') {
+      // Move o servo motor para a posição 0 graus
+      servo1.write(180);
+      servo2.write(0);
+    }
+    
+    else if (signal == 'r') {
+      servo1.write(0);
+      servo2.write(0);
+    }
 
-void executeAction(char action) {
-  switch (action) {
-    case 'f':
-      moveForward();
-      break;
-    case 'b':
-      moveBackward();
-      break;
-    default:
-      stopMotion();
-      break;
-  }
-}
-
-void moveForward() {
-  unsigned long startMillis = millis();
-  int increment = 5;
-  while (millis() - startMillis < 1000) {
-    for (int i = servoLimiteMin; i < servoLimiteMax; i += increment) {
-      rodaDir.writeMicroseconds(400 - i);
-      rodaEsq.writeMicroseconds(400 + i);
-      delay(5);
+    else if (signal == 'l'){
+      servo1.write(180);
+      servo2.write(180);
+    }
+    else if (signal == 's') {
+      // Move o servo motor para a posição central (90 graus)
+      servo1.write(90);
+      servo2.write(90);
     }
   }
-  stopMotion();
 }
-
-void moveBackward() {
-  unsigned long startMillis = millis();
-  int decrement = 5;
-  while (millis() - startMillis < 1000) {
-    for (int i = servoLimiteMax; i > servoLimiteMin; i -= decrement) {
-      rodaEsq.writeMicroseconds(400 - i);
-      rodaDir.writeMicroseconds(400 + i);
-      delay(5);
-    }
-  }
-  stopMotion();
-}
-
-void stopMotion() {
-  rodaDir.writeMicroseconds(servoLimiteMin);
-  rodaEsq.writeMicroseconds(servoLimiteMax);
-}
-
