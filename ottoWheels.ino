@@ -12,11 +12,14 @@ int bluetoothTx = 11;
 int bluetoothRx = 12;
 SoftwareSerial bluetooth(bluetoothTx, bluetoothRx);
 
+int buzzerPin = 13;
+
 void setup() {
   Serial.begin(9600);
   bluetooth.begin(9600);
   servo1.attach(servoPin1);
   servo2.attach(servoPin2);
+  pinMode(buzzerPin, OUTPUT);
 }
 
 void loop() {
@@ -34,16 +37,23 @@ void loop() {
       servo2.writeMicroseconds(1000);
     }
     else if (signal == 'r') {
-      servo1.writeMicroseconds(1000);
-      servo2.writeMicroseconds(1000);
-    }
-    else if (signal == 'l'){
       servo1.writeMicroseconds(2000);
       servo2.writeMicroseconds(2000);
+    }
+    else if (signal == 'l'){
+      servo1.writeMicroseconds(1000);
+      servo2.writeMicroseconds(1000);
     }
     else if (signal == 's') {
       servo1.writeMicroseconds(1500);
       servo2.writeMicroseconds(1500);
     }
+   else if (signal == 'h') {
+      tone(buzzerPin, 1500, 500);
+      delay(500);
+      noTone(buzzerPin);
+    }
   }
 }
+
+
